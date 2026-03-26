@@ -1,38 +1,17 @@
 <?php
 
-if ( ! empty($_GET["name"])) {
+$ch = curl_init();
 
-    $response = file_get_contents("https://api.agify.io?name={$_GET['name']}");
+//curl_setopt($ch, CURLOPT_URL, "https://randomuser.me/api");
+//curl_setopt($ch, CURLOPT_RETURNTRANSFER, true);
 
-    $data = json_decode($response, true);
+curl_setopt_array($ch, [
+    CURLOPT_URL => "https://randomuser.me/api",
+    CURLOPT_RETURNTRANSFER => true
+]);
 
-    $age = $data["age"];
-}
+$response = curl_exec($ch);
 
-?>
-<!DOCTYPE html>
-<html>
-<head>
-    <title>Example</title>
-</head>
-<body>
+curl_close($ch);
 
-<?php if (isset($age)): ?>
-    
-    Age: <?= $age ?>
-    
-<?php endif; ?>
-    
-    <form>
-        
-        <label for="name">Name</label>
-        <input name="name" id="name">
-        
-        <button>Guess age</button>
-    </form>
-    
-</body>
-</html>
-    
-    
-    
+echo $response, "\n";
