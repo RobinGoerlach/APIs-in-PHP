@@ -1,7 +1,38 @@
 <?php
 
-$response = file_get_contents("https://randomuser.me/api");
+if ( ! empty($_GET["name"])) {
 
-$data = json_decode($response, true);
+    $response = file_get_contents("https://api.agify.io?name={$_GET['name']}");
 
-echo $data["results"][0]["name"]["first"], "\n";
+    $data = json_decode($response, true);
+
+    $age = $data["age"];
+}
+
+?>
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Example</title>
+</head>
+<body>
+
+<?php if (isset($age)): ?>
+    
+    Age: <?= $age ?>
+    
+<?php endif; ?>
+    
+    <form>
+        
+        <label for="name">Name</label>
+        <input name="name" id="name">
+        
+        <button>Guess age</button>
+    </form>
+    
+</body>
+</html>
+    
+    
+    
